@@ -1,26 +1,47 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <router-view v-slot="{ Component }">
+    <transition name="fade">
+      <component :is="Component" />
+    </transition>
+  </router-view>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue';
-
 export default {
   name: 'App',
-  components: {
-    HelloWorld,
-  },
 };
 </script>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style lang="sass">
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap')
+
+*
+  margin: 0
+  padding: 0
+  box-sizing: border-box
+
+body
+  font-family: 'Open Sans', sans-serif
+  background-color: white
+  color: black
+
+img
+  width: 100%
+
+.container
+  max-width: 1024px
+  margin: 0 auto
+  padding: 0 12px
+
+.center-y
+  top: 50%
+  transform: translateY(-50%)
+
+.fade-enter-active,
+.fade-leave-active
+  transition: opacity .3s ease
+
+.fade-enter-from,
+.fade-leave-to
+  opacity: 0
 </style>

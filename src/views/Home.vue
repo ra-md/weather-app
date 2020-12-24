@@ -1,0 +1,75 @@
+<template>
+  <div>
+    <h1 v-if="loading">Loading...</h1>
+    <p v-else-if="error">{{ error }}</p>
+    <div v-else>
+      <AppHeader>
+        <p class="location-name">{{ weather.locationName }}</p>
+        <router-link to="/search-location">
+          <i class="fas fa-plus"></i>
+        </router-link>
+      </AppHeader>
+      <CurrentWeather :current-weather="weather.current" />
+      <Forecast :weather-data="weather" />
+    </div>
+  </div>
+</template>
+
+<script>
+import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+import storage from '../utils/storage.service';
+import AppHeader from '../components/AppHeader.vue';
+import CurrentWeather from '../components/CurrentWeather.vue';
+import Forecast from '../components/Forecast.vue';
+import api from '../api';
+
+export default {
+  name: 'Home',
+  components: {
+    AppHeader,
+    CurrentWeather,
+    Forecast,
+  },
+  setup() {
+    const router = useRouter();
+    const weather = ref({});
+    const loading = ref(true);
+    const error = ref('');
+
+    onMounted(async () => {
+      let coordinates = storage.get('currentLocation');
+
+      if (coordinates == null) {
+        navigator.geolocation.getCurrentPosition(({ coords }) => {
+          coordinates = {
+            lat: coords.latitude,
+            lon: coords.longitude,
+          };
+        }, () => {
+          router.push('/search-location');
+        });
+      }
+
+      try {
+        weather.value = await api.dailyForecast(coordinates);
+      } catch (err) {
+        error.value = err.message;
+      }
+
+      loading.value = false;
+    });
+
+    return {
+      loading,
+      weather,
+      error,
+    };
+  },
+};
+</script>
+
+<style lang="sass">
+.location-name
+  font-size: 1.5rem
+</style>
