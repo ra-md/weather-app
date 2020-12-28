@@ -57,7 +57,8 @@ export default {
 
 <style lang="sass" scoped>
 .forecast
-  background-color: white
+  background-color: $secondary
+  color: white
   position: relative
   margin-top: 24em
   padding: .75em

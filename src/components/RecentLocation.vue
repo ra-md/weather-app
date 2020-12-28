@@ -1,9 +1,10 @@
 <template>
-  <p style="color: #9CA3AF; margin-bottom: .75em">Recent locations</p>
-  <LocationList :locationListData="locations"/>
+  <slot />
+  <LocationList :locationListData="locations" @deleteLocation="deleteLocation"/>
 </template>
 
 <script>
+import { ref } from 'vue';
 import LocationList from './LocationList.vue';
 import storage from '../utils/storage.service';
 
@@ -13,9 +14,15 @@ export default {
     LocationList,
   },
   setup() {
-    const locations = storage.get('locationList') || [];
+    const locations = ref(storage.get('locationList') || []);
+
+    function deleteLocation(updatedLocations) {
+      locations.value = updatedLocations;
+    }
+
     return {
       locations,
+      deleteLocation,
     };
   },
 };

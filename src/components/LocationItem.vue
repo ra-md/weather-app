@@ -1,10 +1,12 @@
 <template>
-  <li @click="selectLocation">
-    <p>{{ locationItemData.locationName }}</p>
-    <div class="right">
-      <p>{{ removeDecimal(locationItemData.temp) }}&deg;</p>
-      <!-- <i class="fas fa-times remove"></i> -->
-    </div>
+  <li>
+    <p @click="selectLocation" class="location-name">{{ locationData.name }}</p>
+    <p v-if="locationData.hasOwnProperty('main')">
+      {{ removeDecimal(locationData.main.temp) }}&deg;
+    </p>
+    <button v-else @click="removeLocation" class="btn-remove">
+      <i class="fas fa-times remove"></i>
+    </button>
   </li>
 </template>
 
@@ -12,26 +14,48 @@
 import { useRouter } from 'vue-router';
 import storage from '../utils/storage.service';
 import removeDecimal from '../utils/removeDecimal';
+import formatDate from '../utils/formatDate';
 
 export default {
   name: 'LocationList',
   props: {
-    locationItemData: {
+    locationData: {
       type: Object,
       default: () => {},
     },
   },
-  setup(props) {
+  setup(props, { emit }) {
     const router = useRouter();
 
+    let locationList = storage.get('locationList') || [];
+
     function selectLocation() {
-      storage.set('currentLocation', props.locationItemData.coordinates);
+      const findLocation = locationList.find((item) => item.name === props.locationData.name);
+
+      if (findLocation == null) {
+        locationList.push({
+          name: props.locationData.name,
+          coord: props.locationData.coord,
+        });
+      }
+
+      storage.set('locationList', locationList);
+      storage.set('currentLocation', props.locationData.coord);
+
       router.push('/');
+    }
+
+    function removeLocation() {
+      locationList = locationList.filter((location) => location.name !== props.locationData.name);
+      storage.set('locationList', locationList);
+      emit('deleteLocation', locationList);
     }
 
     return {
       selectLocation,
+      removeLocation,
       removeDecimal,
+      formatDate,
     };
   },
 };
@@ -42,11 +66,16 @@ li
   display: flex
   justify-content: space-between
   margin-bottom: .75em
+  cursor: pointer
 
-.right
-  display: flex
-  align-items: center
+.location-name
+  width: 100%
 
-  .remove
-    margin-left: .75em
+  &:hover
+    color: $dark-gray
+
+.btn-remove
+  cursor: pointer
+  padding: 0 .75em
+  color: red
 </style>

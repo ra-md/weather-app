@@ -1,6 +1,6 @@
 <template>
   <ul>
-    <LocationItem v-for="(item, index) in locationListData" :key="index" :locationItemData="item" />
+    <LocationItem v-for="(item, index) in locationListData" :key="index" :locationData="item" @deleteLocation="deleteLocation" />
   </ul>
 </template>
 
@@ -17,6 +17,15 @@ export default {
       type: Array,
       default: () => [],
     },
+  },
+  setup(_, { emit }) {
+    function deleteLocation(updatedLocations) {
+      emit('deleteLocation', updatedLocations);
+    }
+
+    return {
+      deleteLocation,
+    };
   },
 };
 </script>

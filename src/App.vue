@@ -22,14 +22,18 @@ export default {
 
 body
   font-family: 'Open Sans', sans-serif
-  background-color: white
-  color: black
+  background-color: $primary
+  color: white
 
 img
   width: 100%
 
+button
+  border: none
+  background: none
+
 .container
-  max-width: 1024px
+  max-width: 800px
   margin: 0 auto
   padding: 0 12px
 

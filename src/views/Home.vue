@@ -1,12 +1,14 @@
 <template>
   <div>
-    <h1 v-if="loading">Loading...</h1>
+    <div v-if="loading">
+      <Loading :centerY="true" />
+    </div>
     <p v-else-if="error">{{ error }}</p>
     <div v-else>
       <AppHeader>
         <p class="location-name">{{ weather.locationName }}</p>
         <router-link to="/search-location">
-          <i class="fas fa-plus"></i>
+          <i class="fas fa-plus add-location"></i>
         </router-link>
       </AppHeader>
       <CurrentWeather :current-weather="weather.current" />
@@ -19,10 +21,11 @@
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import storage from '../utils/storage.service';
+import api from '../api';
 import AppHeader from '../components/AppHeader.vue';
 import CurrentWeather from '../components/CurrentWeather.vue';
 import Forecast from '../components/Forecast.vue';
-import api from '../api';
+import Loading from '../components/Loading.vue';
 
 export default {
   name: 'Home',
@@ -30,6 +33,7 @@ export default {
     AppHeader,
     CurrentWeather,
     Forecast,
+    Loading,
   },
   setup() {
     const router = useRouter();
@@ -69,7 +73,10 @@ export default {
 };
 </script>
 
-<style lang="sass">
+<style lang="sass" scoped>
 .location-name
   font-size: 1.5rem
+
+.add-location
+  color: $blue
 </style>

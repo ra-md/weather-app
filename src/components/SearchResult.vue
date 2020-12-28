@@ -1,14 +1,13 @@
 <template>
-  <p class="search-error-message" v-if="data.error">{{ data.message }}</p>
+  <p class="search-error-message" v-if="locationData.error">{{ locationData.message }}</p>
   <div v-else>
-    <p class="search-result">Search result</p>
-    <LocationList @click="addNewLocation" :locationListData="[modifedLocation]" />
+    <slot />
+    <LocationList :locationListData="[locationData]" />
   </div>
 </template>
 
 <script>
 import LocationList from './LocationList.vue';
-import storage from '../utils/storage.service';
 
 export default {
   name: 'SearchResult',
@@ -16,34 +15,10 @@ export default {
     LocationList,
   },
   props: {
-    data: {
+    locationData: {
       type: Object,
       default: () => {},
     },
-  },
-  setup(props) {
-    const locationList = storage.get('locationList') || [];
-    let modifedLocation;
-
-    if (!props.data.error) {
-      modifedLocation = {
-        locationName: props.data.name,
-        temp: props.data.main.temp,
-        coordinates: props.data.coord,
-      };
-    }
-
-    function addNewLocation() {
-      locationList.push(modifedLocation);
-
-      storage.set('locationList', locationList);
-      storage.set('currentLocation', props.data.coord);
-    }
-
-    return {
-      addNewLocation,
-      modifedLocation,
-    };
   },
 };
 </script>
@@ -51,9 +26,5 @@ export default {
 <style lang="sass" scoped>
 .search-error-message
   text-align: center
-  color: lightgray
-
-.search-result
-  margin-bottom: .75em
-  color: lightgray
+  color: $dark-gray
 </style>

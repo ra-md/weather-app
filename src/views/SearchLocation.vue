@@ -3,8 +3,8 @@
     <AppHeader>
       <div class="search">
         <i class="fas fa-search center-y"></i>
-        <input id="search-input" required="true" v-model="searchValue">
-        <label class="center-y" for="search-input">Type something here...</label>
+        <input id="search-input" required="true" v-model="searchValue" @keyup.enter="search">
+        <label class="center-y" for="search-input">Press enter to search</label>
       </div>
       <button>
         <router-link to="/">Cancel</router-link>
@@ -12,23 +12,27 @@
     </AppHeader>
     <div class="container">
       <div v-if="loading">
-        <h1>Loading...</h1>
+        <Loading />
       </div>
       <div v-else>
-        <SearchResult v-if="searchLocationResult" :data="searchLocationResult" />
-        <RecentLocation v-else/>
+        <SearchResult v-if="searchLocationResult" :locationData="searchLocationResult">
+          <p class="location-list-name">Search result</p>
+        </SearchResult>
+        <RecentLocation v-else>
+          <p class="location-list-name">Recent location</p>
+        </RecentLocation>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import debounce from 'lodash/debounce';
 import { ref, watch } from 'vue';
 import api from '../api';
 import AppHeader from '../components/AppHeader.vue';
 import SearchResult from '../components/SearchResult.vue';
 import RecentLocation from '../components/RecentLocation.vue';
+import Loading from '../components/Loading.vue';
 
 export default {
   name: 'SearchLocation',
@@ -36,13 +40,22 @@ export default {
     AppHeader,
     SearchResult,
     RecentLocation,
+    Loading,
   },
   setup() {
     const searchValue = ref('');
     const searchLocationResult = ref();
     const loading = ref(false);
 
-    async function getLocation() {
+    watch(searchValue, () => {
+      if (searchValue.value === '') {
+        searchLocationResult.value = null;
+      }
+    });
+
+    async function search() {
+      loading.value = true;
+
       try {
         if (searchValue.value !== '') {
           searchLocationResult.value = await api.searchLocationByName(searchValue.value);
@@ -50,20 +63,13 @@ export default {
       } catch (error) {
         searchLocationResult.value = { error: true, message: 'Location not found!' };
       }
+
       loading.value = false;
     }
 
-    watch(searchValue, () => {
-      if (searchValue.value !== '') {
-        loading.value = true;
-      }
-      searchLocationResult.value = null;
-    });
-
-    watch(searchValue, debounce(getLocation, 2000));
-
     return {
       searchValue,
+      search,
       loading,
       searchLocationResult,
     };
@@ -73,10 +79,8 @@ export default {
 
 <style lang="sass" scoped>
 button
-  border: none
-  background: none
   font-size: 1rem
-  color: #0d6efd
+  color: $blue
   font-weight: bold
 
 a
@@ -87,7 +91,7 @@ a
   position: relative
   height: 100%
   width: 100%
-  background: #E5E7EB
+  background: $secondary
   border-radius: 10px
   margin-right: .5em
   font-size: 1rem
@@ -102,7 +106,7 @@ a
   i
     position: absolute
     left: .5em
-    color: #9CA3AF
+    color: $dark-gray
 
   input
     width: 100%
@@ -113,6 +117,7 @@ a
     padding-right: 1em
     font-size: inherit
     outline: none
+    color: white
 
     &:valid ~ label
       visibility: hidden
@@ -121,6 +126,11 @@ a
     position: absolute
     left: 2em
     font-size: inherit
-    color: #9CA3AF
+    color: $dark-gray
+    cursor: text
 
+.location-list-name
+  margin-bottom: .75em
+  color: $dark-gray
+  font-weight: bold
 </style>
