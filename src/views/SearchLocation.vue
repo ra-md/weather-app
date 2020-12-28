@@ -6,7 +6,7 @@
         <input id="search-input" required="true" v-model="searchValue" @keyup.enter="search">
         <label class="center-y" for="search-input">Press enter to search</label>
       </div>
-      <button>
+      <button aria-label="cancel search">
         <router-link to="/">Cancel</router-link>
       </button>
     </AppHeader>

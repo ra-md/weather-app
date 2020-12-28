@@ -7,7 +7,7 @@ const routes = [
     component: Home,
   },
   {
-    path: '/search-location',
+    path: '/search',
     component: () => import('../views/SearchLocation.vue'),
     meta: { transition: 'slide' },
   },

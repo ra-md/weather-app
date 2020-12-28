@@ -3,11 +3,11 @@
     <div v-if="loading">
       <Loading :centerY="true" />
     </div>
-    <p v-else-if="error">{{ error }}</p>
+    <p class="error" v-else-if="error">{{ error }}</p>
     <div v-else>
       <AppHeader>
         <p class="location-name">{{ weather.locationName }}</p>
-        <router-link to="/search-location">
+        <router-link to="/search" aria-label="search location">
           <i class="fas fa-plus add-location"></i>
         </router-link>
       </AppHeader>
@@ -84,4 +84,10 @@ export default {
 
 .add-location
   color: $blue
+
+.error
+  position: absolute
+  top: 50%
+  left: 50%
+  transform: translate(-50%, -50%)
 </style>
