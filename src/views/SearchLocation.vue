@@ -18,9 +18,9 @@
         <SearchResult v-if="searchLocationResult" :locationData="searchLocationResult">
           <p class="location-list-name">Search result</p>
         </SearchResult>
-        <RecentLocation v-else>
-          <p class="location-list-name">Recent search</p>
-        </RecentLocation>
+        <LocationHistory v-else>
+          <p class="location-list-name">Search history</p>
+        </LocationHistory>
       </div>
     </div>
   </div>
@@ -31,7 +31,7 @@ import { ref, watch } from 'vue';
 import api from '../api';
 import AppHeader from '../components/AppHeader.vue';
 import SearchResult from '../components/SearchResult.vue';
-import RecentLocation from '../components/RecentLocation.vue';
+import LocationHistory from '../components/LocationHistory.vue';
 import Loading from '../components/Loading.vue';
 
 export default {
@@ -39,7 +39,7 @@ export default {
   components: {
     AppHeader,
     SearchResult,
-    RecentLocation,
+    LocationHistory,
     Loading,
   },
   setup() {
