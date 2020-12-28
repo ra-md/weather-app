@@ -56,7 +56,7 @@ export default {
             lon: coords.longitude,
           };
         } catch (_) {
-          router.push('/search-location');
+          router.push('/search');
         }
       }
 
