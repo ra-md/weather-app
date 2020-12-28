@@ -2,19 +2,19 @@
   <div class="current-weather">
     <div class="container">
       <div class="current-weather-data">
-        <span class="current-weather-value">{{ removedDecimal }}</span>
+        <span class="current-weather-value">{{ removeDecimal(currentWeather.temp) }}</span>
         <span class="current-weather-deg">&deg;c</span>
       </div>
       <p class="current-weather-description">{{ currentWeather.weather[0].main }}</p>
       <div class="current-weather-details">
-        <div class="sunrise">
-          <p class="date">{{ sunriseDate }}</p>
-          <p class="name">Sunrise</p>
+        <div class="pressure">
+          <p class="value">{{ currentWeather.pressure }} mb</p>
+          <p class="name">Pressure</p>
         </div>
         <img :src="`${iconUrl}${currentWeather.weather[0].icon}@2x.png`">
-        <div class="sunset">
-          <p class="date">{{ sunsetDate }}</p>
-          <p class="name">Sunset</p>
+        <div class="feels-like">
+          <p class="value">{{ currentWeather.feels_like }}&deg;</p>
+          <p class="name">Feels like</p>
         </div>
       </div>
     </div>
@@ -22,7 +22,6 @@
 </template>
 
 <script>
-import formatDate from '../utils/formatDate';
 import removeDecimal from '../utils/removeDecimal';
 import { iconUrl } from '../utils/config';
 
@@ -34,15 +33,9 @@ export default {
       default: () => {},
     },
   },
-  setup(props) {
-    const sunsetDate = formatDate({ timestamp: props.currentWeather.sunset });
-    const sunriseDate = formatDate({ timestamp: props.currentWeather.sunrise });
-    const removedDecimal = removeDecimal(props.currentWeather.temp);
-
+  setup() {
     return {
-      removedDecimal,
-      sunsetDate,
-      sunriseDate,
+      removeDecimal,
       iconUrl,
     };
   },
@@ -80,16 +73,16 @@ export default {
   align-items: center
   text-align: center
 
-  .sunrise
+  .pressure
     text-align: left
 
-  .sunset
+  .feels-like
     text-align: right
 
-  .sunrise, .sunset
+  .pressure, .feels-like
     font-size: .75rem
 
-    .date
+    .value
       font-weight: bold
 
   img

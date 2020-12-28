@@ -1,6 +1,6 @@
 <template>
-  <router-view v-slot="{ Component }">
-    <transition name="fade">
+  <router-view v-slot="{ Component, route }">
+    <transition :name="route.meta.transition">
       <component :is="Component" />
     </transition>
   </router-view>
@@ -41,11 +41,11 @@ button
   top: 50%
   transform: translateY(-50%)
 
-.fade-enter-active,
-.fade-leave-active
-  transition: opacity .3s ease
+.slide-enter-active,
+.slide-leave-active
+  transition: transform .3s ease
 
-.fade-enter-from,
-.fade-leave-to
-  opacity: 0
+.slide-enter-from,
+.slide-leave-to
+  transform: translateY(100%)
 </style>

@@ -9,6 +9,10 @@
         </li>
       </ul>
       <ul class="daily-weather">
+        <div class="desc">
+          <span class="desc-min">Min</span>
+          <span class="desc-max">Max</span>
+        </div>
         <li
           class="daily-weather-item"
           v-for="(dailyWeather, index) in weatherData.daily"
@@ -16,16 +20,14 @@
           <p>
             {{ formatDate({
                 timestamp: dailyWeather.dt,
-                options: { day: 'numeric', weekday: 'long' },
+                options: { day: 'numeric', weekday: 'long', month: 'short' },
               })
             }}
           </p>
-          <img :src="`${iconUrl}${dailyWeather.weather[0].icon}@2x.png`">
-          <p>
-            {{ removeDecimal(dailyWeather.temp.min) }}&deg;
-            -
-            {{ removeDecimal(dailyWeather.temp.max) }}&deg;
-          </p>
+          <div class="temp">
+            <span class="min">{{ removeDecimal(dailyWeather.temp.min) }}&deg;</span>
+            <span class="max">{{ removeDecimal(dailyWeather.temp.max) }}&deg;</span>
+          </div>
         </li>
       </ul>
     </div>
@@ -88,12 +90,31 @@ img
 .daily-weather
   margin: 1.5em 0
 
+  .desc
+    text-align: end
+
+    &-min
+      color: $dark-gray
+      padding-right: 15px
+
+    &-max
+      font-weight: bold
+
   &-item
-    display: grid
-    grid-template-columns: 2fr 1fr 1fr
+    display: flex
+    justify-content: space-between
+    padding: .75em 0
     align-items: center
 
-    p:last-child
-      text-align: right
+    .temp
+      display: flex
+      align-items: center
+      justify-content: space-between
+      width: 70px
 
+    .min
+      color: $dark-gray
+
+    .max
+      font-weight: bold
 </style>
