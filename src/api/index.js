@@ -15,7 +15,6 @@ const api = {
   async dailyForecast(coordinates) {
     const { data } = await axiosInstance.get('onecall', { params: coordinates });
     const details = await axiosInstance.get('weather', { params: coordinates });
-
     return { ...data, locationName: details.data.name };
   },
   async searchLocationByName(locationName) {

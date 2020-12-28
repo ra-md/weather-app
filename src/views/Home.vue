@@ -41,18 +41,23 @@ export default {
     const loading = ref(true);
     const error = ref('');
 
+    function getCurrentLocation() {
+      return new Promise((resolve, reject) => navigator.geolocation.getCurrentPosition(resolve, reject));
+    }
+
     onMounted(async () => {
       let coordinates = storage.get('currentLocation');
 
       if (coordinates == null) {
-        navigator.geolocation.getCurrentPosition(({ coords }) => {
+        try {
+          const { coords } = await getCurrentLocation();
           coordinates = {
             lat: coords.latitude,
             lon: coords.longitude,
           };
-        }, () => {
+        } catch (_) {
           router.push('/search-location');
-        });
+        }
       }
 
       try {

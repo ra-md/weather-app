@@ -19,7 +19,7 @@
           <p class="location-list-name">Search result</p>
         </SearchResult>
         <RecentLocation v-else>
-          <p class="location-list-name">Recent location</p>
+          <p class="location-list-name">Recent search</p>
         </RecentLocation>
       </div>
     </div>
