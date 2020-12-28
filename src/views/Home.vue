@@ -55,6 +55,7 @@ export default {
             lat: coords.latitude,
             lon: coords.longitude,
           };
+          storage.set('currentLocation', coordinates);
         } catch (_) {
           router.push('/search');
         }
