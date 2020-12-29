@@ -15,7 +15,7 @@ export default {
   props: {
     locationListData: {
       type: Array,
-      default: () => [],
+      required: true,
     },
   },
   setup(_, { emit }) {

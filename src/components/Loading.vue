@@ -1,5 +1,5 @@
 <template>
-  <div class="loading" :class="{'centerY': centerY}">
+  <div class="loading" :class="{'centerY': centerY}" data-test="loading">
     <div class="lds-spinner">
       <div></div>
       <div></div>

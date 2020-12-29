@@ -3,9 +3,9 @@
     <div class="forecast">
       <ul class="hourly-weather">
         <li class="hourly-weather-item" v-for="(item, index) in weatherData.hourly" :key="index">
-          <p>{{ formatDate({ timestamp: item.dt }) }}</p>
-          <img :src="`${iconUrl}${item.weather[0].icon}@2x.png`">
-          <p>{{ removeDecimal(item.temp) }}&deg;</p>
+          <p test-data="hourly-date">{{ formatDate({ timestamp: item.dt }) }}</p>
+          <img :src="`${iconUrl}${item.weather[0].icon}@2x.png`" test-data="hourly-icon">
+          <p test-data="hourly-temp">{{ removeDecimal(item.temp) }}&deg;</p>
         </li>
       </ul>
       <ul class="daily-weather">
@@ -17,7 +17,7 @@
           class="daily-weather-item"
           v-for="(dailyWeather, index) in weatherData.daily"
           :key="index">
-          <p>
+          <p test-data="daily-date">
             {{ formatDate({
                 timestamp: dailyWeather.dt,
                 options: { day: 'numeric', weekday: 'long', month: 'short' },
@@ -25,8 +25,8 @@
             }}
           </p>
           <div class="temp">
-            <span class="min">{{ removeDecimal(dailyWeather.temp.min) }}&deg;</span>
-            <span class="max">{{ removeDecimal(dailyWeather.temp.max) }}&deg;</span>
+            <span class="min" test-data="daily-temp-min">{{ removeDecimal(dailyWeather.temp.min) }}&deg;</span>
+            <span class="max" test-data="daily-temp-max">{{ removeDecimal(dailyWeather.temp.max) }}&deg;</span>
           </div>
         </li>
       </ul>
@@ -44,7 +44,7 @@ export default {
   props: {
     weatherData: {
       type: Object,
-      default: () => {},
+      required: true,
     },
   },
   setup() {

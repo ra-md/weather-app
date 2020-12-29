@@ -21,7 +21,7 @@ export default {
   props: {
     locationData: {
       type: Object,
-      default: () => {},
+      required: true,
     },
   },
   setup(props, { emit }) {

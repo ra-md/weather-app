@@ -2,11 +2,21 @@ import { mount } from '@vue/test-utils';
 import AppHeader from '@/components/AppHeader.vue';
 
 describe('AppHeader.vue', () => {
-  it('renders nav when toggle nav clicked', async () => {
+  it('renders nothing if there is no slot', () => {
     const wrapper = mount(AppHeader);
 
-    await wrapper.get('[data-test="toggle-nav"]').trigger('click');
+    expect(wrapper.get('[data-test="container"]').text()).toBe('');
+  });
 
-    expect(wrapper.find('[data-test="nav"]').isVisible()).toBe(true);
+  it('renders slots correctly', () => {
+    const defaultSlots = '<h1>App Header</h1>';
+
+    const wrapper = mount(AppHeader, {
+      slots: {
+        default: defaultSlots,
+      },
+    });
+
+    expect(wrapper.html()).toContain(defaultSlots);
   });
 });

@@ -1,6 +1,6 @@
 <template>
   <header>
-    <div class="container">
+    <div class="container" data-test="container">
       <slot></slot>
     </div>
   </header>
