@@ -9,7 +9,7 @@ import LocationList from './LocationList.vue';
 import storage from '../utils/storage.service';
 
 export default {
-  name: 'LocationHistory',
+  name: 'SearchHistory',
   components: {
     LocationList,
   },
