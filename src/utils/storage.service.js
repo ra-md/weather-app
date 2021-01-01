@@ -1,15 +1,25 @@
-const storage = {
-  remove(name) {
-    window.localStorage.removeItem(name);
-  },
+export function sr(storage) {
+  return {
+    get(name) {
+      const item = storage.getItem(name);
+      return JSON.parse(item);
+    },
+    set(name, value) {
+      const str = JSON.stringify(value);
+      storage.setItem(name, str);
+    },
+  };
+}
+
+const storageService = {
   get(name) {
-    const item = window.localStorage.getItem(name);
+    const item = storage.getItem(name);
     return JSON.parse(item);
   },
   set(name, value) {
     const str = JSON.stringify(value);
-    window.localStorage.setItem(name, str);
+    storage.setItem(name, str);
   },
 };
 
-export default storage;
+export default storageService;

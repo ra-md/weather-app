@@ -1,10 +1,10 @@
 <template>
   <li>
-    <p @click="selectLocation" class="location-name">{{ locationData.name }}</p>
+    <p @click="selectLocation" class="location-name" data-test="select-location">{{ locationData.name }}</p>
     <p v-if="locationData.hasOwnProperty('main')">
       {{ removeDecimal(locationData.main.temp) }}&deg;
     </p>
-    <button v-else @click="removeLocation" class="btn-remove">
+    <button v-else @click="removeLocation" class="btn-remove" data-test="btn-remove">
       <i class="fas fa-times remove"></i>
     </button>
   </li>
@@ -12,6 +12,7 @@
 
 <script>
 import { useRouter } from 'vue-router';
+// import { sr } from '../utils/storage.service';
 import storage from '../utils/storage.service';
 import removeDecimal from '../utils/removeDecimal';
 import formatDate from '../utils/formatDate';
@@ -27,6 +28,8 @@ export default {
   setup(props, { emit }) {
     const router = useRouter();
 
+    // const storage = sr(window.localStorage);
+
     let locationList = storage.get('locationList') || [];
 
     function selectLocation() {
@@ -37,9 +40,10 @@ export default {
           name: props.locationData.name,
           coord: props.locationData.coord,
         });
+
+        storage.set('locationList', locationList);
       }
 
-      storage.set('locationList', locationList);
       storage.set('currentLocation', props.locationData.coord);
 
       router.push('/');

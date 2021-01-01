@@ -2,7 +2,7 @@ import { mount } from '@vue/test-utils';
 import faker from 'faker';
 import Forecast from '@/components/Forecast.vue';
 
-describe('Forecast.vue', () => {
+fdescribe('Forecast.vue', () => {
   it('renders all forecast information correctly', () => {
     const fakeDate = 1267610316543;
 
@@ -29,6 +29,7 @@ describe('Forecast.vue', () => {
 
     expect(wrapper.get('[test-data="hourly-date"]').text()).toContain('4:58 PM');
     expect(wrapper.get('[test-data="hourly-temp"]').text()).toContain(weatherData.hourly[0].temp);
+    // it takes too much time
     expect(wrapper.get('[test-data="hourly-icon"]').attributes('src')).toContain(weatherData.hourly[0].weather[0].icon);
     expect(wrapper.get('[test-data="daily-date"]').text()).toContain('Wednesday, Mar 3');
     expect(wrapper.get('[test-data="daily-temp-min"]').text()).toContain(weatherData.daily[0].temp.min);
