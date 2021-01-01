@@ -2,18 +2,18 @@
   <div class="current-weather">
     <div class="container">
       <div class="current-weather-data">
-        <span class="current-weather-value" data-test="temp">{{ removeDecimal(currentWeather.temp) }}</span>
+        <span class="current-weather-value">{{ removeDecimal(currentWeather.temp) }}</span>
         <span class="current-weather-deg">&deg;c</span>
       </div>
-      <p class="current-weather-description" data-test="main">{{ currentWeather.weather[0].main }}</p>
+      <p class="current-weather-description">{{ currentWeather.weather[0].main }}</p>
       <div class="current-weather-details">
         <div class="pressure">
-          <p class="value" data-test="pressure">{{ currentWeather.pressure }} mb</p>
+          <p class="value">{{ currentWeather.pressure }} mb</p>
           <p class="name">Pressure</p>
         </div>
-        <img :src="`${iconUrl}${currentWeather.weather[0].icon}@2x.png`" data-test="icon">
+        <img :src="currentWeather.iconWithUrl" data-test="icon">
         <div class="feels-like">
-          <p class="value" data-test="feels-like">{{ currentWeather.feels_like }}&deg;</p>
+          <p class="value">{{ currentWeather.feels_like }}&deg;</p>
           <p class="name">Feels like</p>
         </div>
       </div>

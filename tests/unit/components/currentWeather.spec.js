@@ -3,16 +3,14 @@ import CurrentWeather from '@/components/CurrentWeather.vue';
 
 describe('CurrentWeather.vue', () => {
   it('renders all current weather information correctly', () => {
+    const iconWithUrl = 'icon-url';
+
     const currentWeather = {
       temp: 18,
-      weather: [
-        {
-          main: 'Clear',
-          icon: '10d',
-        }
-      ],
+      weather: [{ main: 'Clear' }],
       feels_like: 17,
       pressure: 1008,
+      iconWithUrl,
     };
 
     const wrapper = mount(CurrentWeather, {
@@ -21,10 +19,10 @@ describe('CurrentWeather.vue', () => {
       },
     });
 
-    expect(wrapper.get('[data-test="temp"]').text()).toContain(currentWeather.temp);
-    expect(wrapper.get('[data-test="main"]').text()).toContain(currentWeather.weather[0].main);
-    expect(wrapper.get('[data-test="icon"]').attributes('src')).toContain(currentWeather.weather[0].icon);
-    expect(wrapper.get('[data-test="pressure"]').text()).toContain(currentWeather.pressure);
-    expect(wrapper.get('[data-test="feels-like"]').text()).toContain(currentWeather.feels_like);
+    expect(wrapper.html()).toContain(currentWeather.temp);
+    expect(wrapper.html()).toContain(currentWeather.weather[0].main);
+    expect(wrapper.html()).toContain(currentWeather.pressure);
+    expect(wrapper.html()).toContain(currentWeather.feels_like);
+    expect(wrapper.get('[data-test="icon"]').attributes('src')).toBe(iconWithUrl);
   });
 });
