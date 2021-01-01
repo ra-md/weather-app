@@ -1,6 +1,5 @@
 import { mount } from '@vue/test-utils';
 import LocationItem from '@/components/LocationItem.vue';
-// import storage from '@/utils/storage.service';
 
 const mockPush = jest.fn();
 const mockStorage = {};
@@ -28,6 +27,7 @@ jest.mock('vue-router', () => {
 
 const locationName = 'Singapore';
 const locationTemperature = 17;
+const coord = { lon: 1, lat: 1 };
 
 function wrapperFactory(temp) {
   return mount(LocationItem, {
@@ -35,46 +35,36 @@ function wrapperFactory(temp) {
       locationData: {
         name: locationName,
         ...temp,
-        coord: {
-          lon: 1,
-          lat: 1,
-        },
+        coord,
       },
     },
   });
 }
 
 describe('LocationItem.vue', () => {
-
-  // ✔ 1. bisa menampilkan location item dengan temperatur
-  // ✔ 2. bisa menampilkan location item dengan tombol remove location history
-  // ✔ 3. bisa menambahkan location ke localStorage - router.push - push location locationList - set currentLocation
-  // ✔ 3 or 4. tidak bisa menambahkan location ke localStorage kalau location sudah ada
-  // 5. bisa menghapus location history - bisa emit - location yg berada di localStorage dihapus
-
-  it('renders location item with temperature', () => {
+  it('renders location with temperature', () => {
     const wrapper = wrapperFactory({ main: { temp: locationTemperature } });
 
     expect(wrapper.html()).toContain(locationName);
     expect(wrapper.html()).toContain(locationTemperature);
   });
 
-  it('renders location item with remove button', () => {
+  it('renders location with a remove button', () => {
     const wrapper = wrapperFactory();
 
     expect(wrapper.get('[data-test="btn-remove"]').exists()).toBe(true);
   });
 
-  it('can save a location to locationList', () => {
-    const wrapper = wrapperFactory({ main: { temp: locationTemperature } });
+  it('can save a location to the localStorage locationList', () => {
+    const wrapper = wrapperFactory();
 
     wrapper.get('[data-test="select-location"]').trigger('click');
 
     expect(mockStorage.locationList.length).toBe(1);
   });
 
-  it('can\'t save same location', () => {
-    const wrapper = wrapperFactory({ main: { temp: locationTemperature } });
+  it('can\'t save the same location', () => {
+    const wrapper = wrapperFactory();
 
     wrapper.get('[data-test="select-location"]').trigger('click');
     wrapper.get('[data-test="select-location"]').trigger('click');
@@ -82,22 +72,31 @@ describe('LocationItem.vue', () => {
     expect(mockStorage.locationList.length).toBe(1);
   });
 
-  it('can save the cooord to currentLocation', () => {
-    const wrapper = wrapperFactory({ main: { temp: locationTemperature } });
+  it('can save coord to the localStorage currentLocation', () => {
+    const wrapper = wrapperFactory();
 
     wrapper.get('[data-test="select-location"]').trigger('click');
 
-    expect(mockStorage.currentLocation).toEqual({ lat:1, lon: 1 });
+    expect(mockStorage.currentLocation).toEqual(coord);
   });
 
-  it('can redirect to the main page after user click the location', () => {
-    const wrapper = wrapperFactory({ main: { temp: locationTemperature } });
+  it('can redirect to the main page after users click the LocationItem', () => {
+    const wrapper = wrapperFactory();
 
     wrapper.get('[data-test="select-location"]').trigger('click');
 
     expect(mockPush).toHaveBeenCalledWith('/');
   });
 
-  it('can remove a location history', () => {});
+  it('can remove a location from the locationList', () => {
+    const wrapper = wrapperFactory();
+
+    wrapper.get('[data-test="select-location"]').trigger('click');
+
+    wrapper.get('[data-test="btn-remove"]').trigger('click');
+
+    expect(wrapper.emitted().deleteLocation[0][0].length).toBe(0);
+    expect(mockStorage.locationList.length).toBe(0);
+  });
 
 });
