@@ -20,7 +20,6 @@
 <script>
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-// import storageService from '../utils/storage.service';
 import storage from '../utils/storage.service';
 import api from '../api';
 import AppHeader from '../components/AppHeader.vue';
@@ -47,8 +46,6 @@ export default {
     }
 
     onMounted(async () => {
-      // const storage = storageService(window.localStorage);
-
       let coordinates = storage.get('currentLocation');
 
       if (coordinates == null) {

@@ -12,7 +12,6 @@
 
 <script>
 import { useRouter } from 'vue-router';
-// import { sr } from '../utils/storage.service';
 import storage from '../utils/storage.service';
 import removeDecimal from '../utils/removeDecimal';
 import formatDate from '../utils/formatDate';
@@ -27,8 +26,6 @@ export default {
   },
   setup(props, { emit }) {
     const router = useRouter();
-
-    // const storage = sr(window.localStorage);
 
     let locationList = storage.get('locationList') || [];
 

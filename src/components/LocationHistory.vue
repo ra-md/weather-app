@@ -6,7 +6,6 @@
 <script>
 import { ref } from 'vue';
 import LocationList from './LocationList.vue';
-// import storageService from '../utils/storage.service';
 import storage from '../utils/storage.service';
 
 export default {
@@ -15,7 +14,6 @@ export default {
     LocationList,
   },
   setup() {
-    // const storage = storageService(window.localStorage);
     const locations = ref(storage.get('locationList') || []);
 
     function deleteLocation(updatedLocations) {
