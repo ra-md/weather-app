@@ -1,5 +1,4 @@
 import { mount } from '@vue/test-utils';
-import faker from 'faker';
 import Forecast from '@/components/Forecast.vue';
 
 describe('Forecast.vue', () => {
