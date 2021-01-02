@@ -28,11 +28,7 @@ jest.mock('vue-router', () => {
 
 describe('LocationItem.vue', () => {
   it('can save coord to the localStorage currentLocation', () => {
-    const wrapper = createWrapper(LocationItem, {
-      props: {
-        locationData,
-      },
-    });
+    const wrapper = createWrapper(LocationItem);
 
     wrapper.get('[data-test="select-location"]').trigger('click');
 
@@ -40,11 +36,7 @@ describe('LocationItem.vue', () => {
   });
 
   it('can redirect to the main page after users click the LocationItem', () => {
-    const wrapper = createWrapper(LocationItem, {
-      props: {
-        locationData,
-      },
-    });
+    const wrapper = createWrapper(LocationItem);
 
     wrapper.get('[data-test="select-location"]').trigger('click');
 

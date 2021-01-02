@@ -1,4 +1,4 @@
-import { createWrapper } from '../createWrapper';
+import { mount } from '@vue/test-utils';
 import { locationData } from '../fakeData';
 import SearchHistory from '@/components/SearchHistory.vue';
 
@@ -23,13 +23,13 @@ jest.mock('vue-router');
 
 describe('SearchHistory.vue', () => {
   it('renders remove button', () => {
-    const wrapper = createWrapper(SearchHistory);
+    const wrapper = mount(SearchHistory);
 
     expect(wrapper.get('[data-test="btn-remove"]').exists()).toBe(true);
   });
 
   it('can remove search history', async () => {
-    const wrapper = createWrapper(SearchHistory);
+    const wrapper = mount(SearchHistory);
 
     expect(mockLocalStorage.locationList.length).toBe(1);
 

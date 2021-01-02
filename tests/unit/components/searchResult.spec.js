@@ -60,28 +60,20 @@ describe(('SearchResult.vue'), () => {
   });
 
   it('can render temperature correctly', () => {
-    const wrapper = createWrapper(SearchResult, {
-      props: {
-        locationData,
-      },
-    });
+    const wrapper = createWrapper(SearchResult);
 
      expect(wrapper.html()).toContain(locationData.main.temp);
   });
 
   it('can save a location to the locationList', () => {
-    const wrapper = createWrapper(SearchResult, {
-      props: { locationData },
-    });
+    const wrapper = createWrapper(SearchResult);
 
     wrapper.get('[data-test="select-location"]').trigger('click');
     expect(mockLocalStorage.locationList.length).toBe(1);
   });
 
   it('can\'t save the same location', () => {
-    const wrapper = createWrapper(SearchResult, {
-      props: { locationData },
-    });
+    const wrapper = createWrapper(SearchResult);
 
     wrapper.get('[data-test="select-location"]').trigger('click');
     wrapper.get('[data-test="select-location"]').trigger('click');
