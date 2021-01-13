@@ -11,7 +11,7 @@
           <i class="fas fa-plus add-location"></i>
         </router-link>
       </AppHeader>
-      <CurrentWeather :current-weather="weather.current" />
+      <CurrentWeather :weather-data="weather" />
       <Forecast :weather-data="weather" />
     </div>
   </div>

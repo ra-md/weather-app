@@ -31,11 +31,13 @@ export const date = {
 }; 
 
 export const fakeCurrentWeatherData = {
-  temp: 18,
-  weather: [{ main: 'Clear' }],
-  feels_like: 17,
-  pressure: 1008,
-  iconWithUrl,
+  current: {
+    temp: 18,
+    weather: [{ main: 'Clear' }],
+    feels_like: 17,
+    pressure: 1008,
+    iconWithUrl,
+  },
 };
 
 export const fakeWeatherData = {

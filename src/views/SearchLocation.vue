@@ -15,7 +15,7 @@
         <Loading />
       </div>
       <div v-else>
-        <SearchResult v-if="searchLocationResult" :locationData="searchLocationResult">
+        <SearchResult v-if="searchLocationResult" :locationData="searchLocationResult" data-test="SearchResult">
           <p class="location-list-name">Search result</p>
         </SearchResult>
         <SearchHistory v-else>

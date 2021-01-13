@@ -22,19 +22,21 @@
 </template>
 
 <script>
+import { computed } from 'vue';
 import removeDecimal from '../utils/removeDecimal';
 
 export default {
   name: 'CurrentWeather',
   props: {
-    currentWeather: {
+    weatherData: {
       type: Object,
       required: true,
     },
   },
-  setup() {
+  setup(props) {
     return {
       removeDecimal,
+      currentWeather: computed(() => props.weatherData.current),
     };
   },
 };

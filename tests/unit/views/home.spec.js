@@ -1,10 +1,10 @@
-import { mockRouter } from '../helpers/mockRouter';
-import { mockLocalStorageMethods } from '../helpers/mockStorage';
+import { mockPush, mockRouter } from '../helpers/mockRouter';
 import Home from '@/views/Home.vue';
 import { mount } from '@vue/test-utils';
 import { fakeCurrentWeatherData, fakeWeatherData } from '../helpers/fakeData'
-import { nextTick } from 'vue';
 import api from '@/api';
+import storage from '@/utils/storage.service';
+import flushPromises from 'flush-promises';
 
 function createWrapper() {
   return mount(Home, {
@@ -16,7 +16,7 @@ function createWrapper() {
 
 jest.mock('vue-router', () => mockRouter());
 
-jest.mock('@/utils/storage.service', () => mockLocalStorageMethods());
+jest.mock('@/utils/storage.service');
 
 jest.mock('@/api');
 
@@ -28,8 +28,8 @@ describe('Home.vue', () => {
         current: fakeCurrentWeatherData,
         weatherData: fakeWeatherData,
       };
-    };  
-  })
+    };
+  });
 
   it('should render loading', () => {
     const wrapper = createWrapper();
@@ -37,7 +37,7 @@ describe('Home.vue', () => {
     expect(wrapper.getComponent({ name: 'Loading' }).exists()).toBeTruthy();
   });
 
-  it('should display an error message', async () => {
+  it('should display error message', async () => {
     const errorMessage = 'error message';
 
     api.dailyForecast = () => {
@@ -48,26 +48,66 @@ describe('Home.vue', () => {
       });
     };
 
-    const wrapper = await createWrapper();
+    const wrapper = createWrapper();
 
-    await nextTick();
+    await flushPromises();
 
     expect(wrapper.text()).toContain(errorMessage);
   });
 
   it('should render current weather', async () => {
-    const wrapper = await createWrapper();
+    const wrapper = createWrapper();
 
-    await nextTick();
+    await flushPromises();
 
     expect(wrapper.getComponent({ name: 'currentWeather' }).exists()).toBeTruthy();
   });
 
-  it('should render forecast if', async () => {
-    const wrapper = await createWrapper();
+  it('should render forecast', async () => {
+    const wrapper = createWrapper();
 
-    await nextTick();
+    await flushPromises();
 
     expect(wrapper.getComponent({ name: 'forecast' }).exists()).toBeTruthy();
   });
+
+  it('should get coordinates from localstorage', () => {
+    const mockStorage = jest.fn().mockResolvedValue({ lat: 1, lon: 1 });
+
+    storage.get = mockStorage;
+
+    createWrapper();
+
+    expect(mockStorage).toHaveBeenCalled();
+  });
+
+  it('should get coordinates from geolocation', () => {
+    storage.get = jest.fn().mockImplementationOnce(() => null);
+
+    const mockGetCurrentPosition = jest.fn().mockImplementationOnce((success) => Promise.resolve(success({
+      coords: {
+        latitude: 1,
+        longtitude: 1,
+      }
+    })));
+
+    navigator.geolocation = {
+      getCurrentPosition: mockGetCurrentPosition,
+    };
+
+    createWrapper();
+
+    expect(mockGetCurrentPosition).toHaveBeenCalled();
+  });
+
+  it('should change the URL when coordinates are not available in geolocation and storage', () => {
+    navigator.geolocation = {
+      getCurrentPosition: jest.fn(),
+    };
+
+    createWrapper();
+
+    expect(mockPush).toHaveBeenCalled();
+  });
+
 });

@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils';
-import { locationData } from '../helpers/fakeData';
+import { locationData, locationList } from '../helpers/fakeData';
 import { mockLocalStorage, mockLocalStorageMethods } from '../helpers/mockStorage';
 import SearchHistory from '@/components/SearchHistory.vue';
 
@@ -17,7 +17,7 @@ describe('SearchHistory.vue', () => {
   });
 
   it('don\'t display location list when it is not avaliable in localStorage', () => {
-    mockLocalStorage.locationList = [];
+    mockLocalStorage.locationList = null;
 
     const wrapper = searchHistoryWrapper();
 

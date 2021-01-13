@@ -1,6 +1,4 @@
-export const mockLocalStorage = {
-  currentLocation: { lat: 1, lon: 1 },
-};
+export const mockLocalStorage = {};
 
 export function mockLocalStorageMethods() {
   return {
