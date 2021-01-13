@@ -4,11 +4,11 @@ import formatDate from '@/utils/formatDate';
 describe('formatDate.js', () => {
   const timestamp = date.timestamp;
 
-  it('formats the date using options', () => {
+  it('should format the date using options', () => {
     expect(formatDate({ timestamp, options: { dateStyle: 'long', timeZone: 'UTC' } })).toBe(date.fullDate);
   });
 
-  it('length 12', () => {
-    expect(formatDate({ timestamp: 1610552159673 })).toBe('1/13/2021');
+  it('should format 10 digits timestamp', () => {
+    expect(formatDate({ timestamp: 1315119600 })).toBe('9/4/2011');
   });
 });

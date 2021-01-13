@@ -42,6 +42,37 @@ export default {
     SearchHistory,
     Loading,
   },
+  // data() {
+  //   return {
+  //     loading: false,
+  //     searchValue: '',
+  //     searchLocationResult: [],
+  //   };
+  // },
+  // watch: {
+  //   searchValue() {
+  //     console.log(1);
+  //     if (this.searchValue === '') {
+  //       console.log(2);
+  //       this.searchLocationResult = null;
+  //     }
+  //   }
+  // },
+  // methods: {
+  //   async search() {
+  //     this.loading = true;
+
+  //     try {
+  //       if (this.searchValue !== '') {
+  //         this.searchLocationResult = await api.searchLocationByName(this.searchValue);
+  //       }
+  //     } catch (error) {
+  //       this.searchLocationResult = { error: true, message: 'Location not found!' };
+  //     }
+
+  //     this.loading = false;
+  //   }
+  // },
   setup() {
     const searchValue = ref('');
     const searchLocationResult = ref();
@@ -54,7 +85,7 @@ export default {
     });
 
     async function search() {
-      loading.value = true;
+      this.loading = true;
 
       try {
         if (searchValue.value !== '') {

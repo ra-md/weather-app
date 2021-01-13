@@ -17,8 +17,8 @@ function createWrapper(options) {
   });
 }
 
-function setValueAndTrigger(wrapper) {  
-  wrapper.get('[data-test="search-input"]').setValue(locationData.name);
+function setValueAndTrigger(wrapper, value = locationData.name) {  
+  wrapper.get('[data-test="search-input"]').setValue(value);
   wrapper.get('[data-test="search-input"]').trigger('keyup', { key: 'enter' });
 }
 
@@ -55,6 +55,16 @@ describe('SearchLocation.vue', () => {
     await flushPromises();
 
     expect(wrapper.text()).toContain('Location not found!');
+  });
+
+  it('should hide SearchResult when search value is empty', async () => {
+    const wrapper = createWrapper();
+
+    await setValueAndTrigger(wrapper);
+
+    await setValueAndTrigger(wrapper, '');
+
+    expect(wrapper.find('[data-test="SearchResult"').exists()).toBeFalsy();
   });
 
 });
