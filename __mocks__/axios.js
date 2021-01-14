@@ -5,11 +5,9 @@ import fakeForeacast from '../tests/e2e/fixtures/singaporeOnecall.json';
 axios.create = () => ({
   get(path, { params }) {
 
-    if(params === 'invalid') {
-      return Promise.reject(Error('Error'))
-    }
-
-    if (path === 'weather') {
+    if(params === 'invalid' || JSON.stringify(params) === JSON.stringify({q: 'invalid'})) {
+      return Promise.reject(Error('Error'));
+    } else if (path === 'weather') {
       return Promise.resolve({
         data: fakeWeather,
       });

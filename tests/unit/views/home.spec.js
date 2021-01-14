@@ -1,4 +1,5 @@
 import { mockPush, mockRouter } from '../helpers/mockRouter';
+// import { mockPush } from '../helpers/mockRouter';
 import Home from '@/views/Home.vue';
 import { mount } from '@vue/test-utils';
 import { fakeCurrentWeatherData, fakeWeatherData } from '../helpers/fakeData'
@@ -87,8 +88,6 @@ describe('Home.vue', () => {
     const wrapper = createWrapper();
 
     await flushPromises();
-
-    console.log(wrapper.html());
 
     expect(wrapper.get('[data-test="error"]').exists()).toBeTruthy();
   });

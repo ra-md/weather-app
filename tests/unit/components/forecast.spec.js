@@ -8,11 +8,7 @@ describe('Forecast.vue', () => {
       props: {
         weatherData: fakeWeatherData,
       },
-      data() {
-        return {
-          timeZone: 'UTC'
-        };
-      }
+      data: () => ({ timeZone: 'UTC' })
     });
 
     expect(wrapper.text()).toContain(date.hours_minutes);

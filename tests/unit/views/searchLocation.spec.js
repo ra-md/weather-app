@@ -1,10 +1,7 @@
 import { locationData } from '../helpers/fakeData';
-import api from '@/api';
 import SearchLocation from '@/views/SearchLocation.vue';
 import { mount } from '@vue/test-utils';
 import flushPromises from 'flush-promises';
-
-jest.mock('@/api');
 
 jest.mock('vue-router');
 
@@ -32,8 +29,6 @@ describe('SearchLocation.vue', () => {
   });
 
   it('search a location by location\'s name', async () => {
-    const mock = jest.fn().mockResolvedValue(locationData);
-    api.searchLocationByName = mock;
 
     const wrapper = createWrapper();
 
@@ -41,16 +36,13 @@ describe('SearchLocation.vue', () => {
 
     await flushPromises();
 
-    expect(mock).toHaveBeenCalledWith(locationData.name);
     expect(wrapper.getComponent({ name: 'SearchResult' }).exists()).toBeTruthy()
   });
 
   it('should display location not found', async () => {
-    api.searchLocationByName = jest.fn().mockRejectedValue();
-
     const wrapper = createWrapper();
 
-    await setValueAndTrigger(wrapper);
+    await setValueAndTrigger(wrapper, 'invalid');
 
     await flushPromises();
 
