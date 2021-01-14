@@ -13,7 +13,6 @@ const api = {
     const { data } = await axiosInstance.get('onecall', { params: coordinates });
     const details = await axiosInstance.get('weather', { params: coordinates });
 
-
     data.hourly = data.hourly.map((item) => ({ ...item, iconWithUrl: `${process.env.VUE_APP_ICON_URL}/${item.weather[0].icon}@2x.png` }));
     data.current.iconWithUrl = `${process.env.VUE_APP_ICON_URL}/${data.current.weather[0].icon}@2x.png`;
 
