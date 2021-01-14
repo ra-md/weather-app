@@ -3,7 +3,7 @@
     <div v-if="loading">
       <Loading :centerY="true" />
     </div>
-    <p class="error" v-else-if="error">{{ error }}</p>
+    <p class="error" v-else-if="error" data-test="error">{{ error }}</p>
     <div v-else>
       <AppHeader>
         <p class="location-name">{{ weather.locationName }}</p>

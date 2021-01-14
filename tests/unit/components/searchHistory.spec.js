@@ -16,7 +16,7 @@ describe('SearchHistory.vue', () => {
     mockLocalStorage.locationList = [{ name: locationData.name }];
   });
 
-  it('don\'t display location list when it is not avaliable in localStorage', () => {
+  it('don\'t display location list', () => {
     mockLocalStorage.locationList = null;
 
     const wrapper = searchHistoryWrapper();
