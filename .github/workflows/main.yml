@@ -19,11 +19,16 @@ jobs:
       env:
         CI: true
 
+    - uses: actions/upload-artifact@v2
+      with:
+        name: my-artifact
+        path: dist
+
     - uses: actions/download-artifact@v2
       with:
         name: my-artifact
-        path: ./package.json
+        path: dist
 
     - name: Display structure of downloaded files
       run: ls -R
-      working-directory: ./package.json
+      working-directory: dist
