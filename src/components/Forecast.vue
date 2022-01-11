@@ -9,10 +9,6 @@
         </li>
       </ul>
       <ul class="daily-weather">
-        <div class="desc">
-          <span class="desc-min">Min</span>
-          <span class="desc-max">Max</span>
-        </div>
         <li
           class="daily-weather-item"
           v-for="(dailyWeather, index) in weatherData.daily"
@@ -105,16 +101,6 @@ img
 
 .daily-weather
   margin: 1.5em 0
-
-  .desc
-    text-align: end
-
-    &-min
-      color: $dark-gray
-      padding-right: 15px
-
-    &-max
-      font-weight: bold
 
   &-item
     display: flex
